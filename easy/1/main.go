@@ -4,6 +4,7 @@ import (
 	"fmt"
 )
 
+// https://leetcode.com/problems/kids-with-the-greatest-number-of-candies/
 func main() {
 
 	fmt.Println(reverse(123456))
