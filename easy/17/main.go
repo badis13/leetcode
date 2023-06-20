@@ -5,8 +5,8 @@ import "fmt"
 // https://leetcode.com/problems/maximum-sum-with-exactly-k-elements/
 
 func main() {
-	a := []int{1, 5, 2, 8, 2, 9}
-	b := 9
+	a := []int{1, 5, 2, 11, 2, 9}
+	b := 3
 	fmt.Println(maximizeSum(a, b))
 }
 
