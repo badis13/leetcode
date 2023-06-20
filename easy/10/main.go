@@ -5,7 +5,7 @@ import "fmt"
 // https://leetcode.com/problems/two-sum/
 
 func main() {
-	a := []int{1, 4, 2, 65, 3}
+	a := []int{6, 4, 1, 65, 3}
 	b := 5
 	fmt.Println(twoSum(a, b))
 }
