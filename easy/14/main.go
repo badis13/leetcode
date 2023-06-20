@@ -22,12 +22,12 @@ func findDifference(nums1 []int, nums2 []int) [][]int {
 	for _, value := range nums2 {
 		setNums2[value] = true
 	}
-	for key, _ := range setNums1 {
+	for key := range setNums1 {
 		if !setNums2[key] {
 			resArr1 = append(resArr1, key)
 		}
 	}
-	for key, _ := range setNums2 {
+	for key := range setNums2 {
 		if !setNums1[key] {
 			resArr2 = append(resArr2, key)
 		}
