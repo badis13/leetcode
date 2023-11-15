@@ -3,50 +3,54 @@ package main
 import (
 	"container/heap"
 	"fmt"
+	"strconv"
 )
 
 // https://leetcode.com/problems/relative-ranks/
 
 func main() {
 
-	b := []int{0, 1, 2, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17}
+	b := []int{2, 4, 17, 7, 8, 9, 15, 11, 12, 13, 14, 10, 16, 5}
 	fmt.Println(findRelativeRanks(b))
 }
 
 type ScoreRanks struct {
-	score    int
-	rank     string
-	priority int
+	score int
+	rank  string
+	index int
 }
 
-type Heap []*int
+type Heap []*ScoreRanks
 
 func findRelativeRanks(score []int) []string {
-	var result []string
-
-	scorePriority := make(map[int]int, len(score))
-	for i := 0; i < len(score); i++ {
-		scorePriority[i] = score[i]
-	}
+	result := make([]string, len(score))
 
 	ranksHeap := make(Heap, 0, len(score))
-
-	for value, priority := range scorePriority {
-		var curRank string
-		if priority == 1 {
-			curRank = "Gold Medal"
-		}
+	var curRank string
+	for index, value := range score {
 		heap.Push(&ranksHeap, ScoreRanks{
-			score:    value,
-			priority: priority,
-			rank:     curRank,
+			score: value,
+			index: index,
+			rank:  curRank,
 		})
 
 	}
 
-	for i := 0; i < k; i++ {
-		item := heap.Pop(&wfi).(*NumFrequent)
-		result = append(result, item.num)
+	for i := 0; i < len(score); i++ {
+		item := heap.Pop(&ranksHeap).(*ScoreRanks)
+		if i == 0 {
+			item.rank = "Gold Medal"
+		}
+		if i == 1 {
+			item.rank = "Silver Medal"
+		}
+		if i == 2 {
+			item.rank = "Bronze Medal"
+		}
+		if i > 2 {
+			item.rank = strconv.Itoa(i + 1)
+		}
+		result[item.index] = item.rank
 	}
 
 	return result
@@ -54,11 +58,7 @@ func findRelativeRanks(score []int) []string {
 }
 
 func (h Heap) Less(i, j int) bool {
-	if h[i].frequent == h[j].frequent {
-		return false
-	}
-
-	return h[i].frequent > h[j].frequent
+	return h[i].score > h[j].score
 }
 
 func (h Heap) Len() int {
@@ -70,7 +70,7 @@ func (h Heap) Swap(i, j int) {
 }
 
 func (h *Heap) Push(x any) {
-	item := x.(NumFrequent)
+	item := x.(ScoreRanks)
 	*h = append(*h, &item)
 }
 
