@@ -38,18 +38,18 @@ func findRelativeRanks(score []int) []string {
 
 	for i := 0; i < len(score); i++ {
 		item := heap.Pop(&ranksHeap).(*ScoreRanks)
-		if i == 0 {
+
+		switch i {
+		case 0:
 			item.rank = "Gold Medal"
-		}
-		if i == 1 {
+		case 1:
 			item.rank = "Silver Medal"
-		}
-		if i == 2 {
+		case 2:
 			item.rank = "Bronze Medal"
-		}
-		if i > 2 {
+		default:
 			item.rank = strconv.Itoa(i + 1)
 		}
+
 		result[item.index] = item.rank
 	}
 
