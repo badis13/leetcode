@@ -16,7 +16,6 @@ func main() {
 
 type ScoreRanks struct {
 	score int
-	rank  string
 	index int
 }
 
@@ -26,12 +25,10 @@ func findRelativeRanks(score []int) []string {
 	result := make([]string, len(score))
 
 	ranksHeap := make(Heap, 0, len(score))
-	var curRank string
 	for index, value := range score {
 		heap.Push(&ranksHeap, ScoreRanks{
 			score: value,
 			index: index,
-			rank:  curRank,
 		})
 
 	}
@@ -41,16 +38,15 @@ func findRelativeRanks(score []int) []string {
 
 		switch i {
 		case 0:
-			item.rank = "Gold Medal"
+			result[item.index] = "Gold Medal"
 		case 1:
-			item.rank = "Silver Medal"
+			result[item.index] = "Silver Medal"
 		case 2:
-			item.rank = "Bronze Medal"
+			result[item.index] = "Bronze Medal"
 		default:
-			item.rank = strconv.Itoa(i + 1)
+			result[item.index] = strconv.Itoa(i + 1)
 		}
 
-		result[item.index] = item.rank
 	}
 
 	return result
