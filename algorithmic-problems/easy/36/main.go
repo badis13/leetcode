@@ -8,7 +8,7 @@ import (
 //https://leetcode.com/problems/the-k-weakest-rows-in-a-matrix/
 
 func main() {
-	a := [][]int{{1, 1, 1, 1, 1, 1}, {1, 1, 1, 0, 0, 0}, {1, 1, 0, 0, 0, 0}}
+	a := [][]int{{1, 0}, {0, 0}, {1, 0}}
 	k := 2
 	fmt.Println(kWeakestRows(a, k))
 }
@@ -24,6 +24,8 @@ func kWeakestRows(mat [][]int, k int) []int {
 	result := make([]int, 0, len(mat))
 	winHeap := make(Heap, 0, len(mat))
 	for i := 0; i < len(mat); i++ {
+		right := len(mat[i]) - 1
+		left := 0
 		middle := len(mat[i]) / 2
 		for middle < len(mat[i]) {
 			if mat[i][middle] != 0 && middle+1 < len(mat[i]) && mat[i][middle+1] != 1 {
@@ -36,7 +38,7 @@ func kWeakestRows(mat [][]int, k int) []int {
 
 			if middle-1 >= 0 && mat[i][middle-1] != 0 && mat[i][middle] != 1 {
 				heap.Push(&winHeap, WinRanks{
-					soldiers: middle + 1,
+					soldiers: middle,
 					priority: i,
 				})
 				break
@@ -51,12 +53,25 @@ func kWeakestRows(mat [][]int, k int) []int {
 			}
 
 			if mat[i][middle] != 1 {
-				middle--
-				middle /= 2
+				right = middle
+				middle = (middle-left)/2 + left
+				if middle == left || middle <= 0 {
+					middle++
+				}
+				if middle == right {
+					middle--
+				}
 				continue
 			}
 			if middle+1 < len(mat[i]) && mat[i][middle+1] != 0 {
-				middle = middle/2 + middle
+				left = middle
+				middle = (right-middle)/2 + middle
+				if middle == right || middle >= len(mat[i]) {
+					middle--
+				}
+				if middle == 1 || middle == left {
+					middle++
+				}
 				continue
 			}
 
