@@ -7,6 +7,8 @@ type ListNode struct {
 	Next *ListNode
 }
 
+//https://leetcode.com/problems/linked-list-cycle/
+
 func hasCycle(head *ListNode) bool {
 	if head == nil || head.Next == nil || head.Next.Next == nil {
 		return false
