@@ -12,20 +12,15 @@ func hasCycle(head *ListNode) bool {
 		return false
 	}
 
-	return isCycle(head, head.Next)
-
-}
-
-func isCycle(p1, p2 *ListNode) bool {
-	if p1 == nil || p2 == nil {
-		return false
+	for p1, p2 := head.Next, head.Next.Next; ; p1, p2 = p1.Next, p2.Next.Next {
+		if p1 == p2 {
+			return true
+		}
+		if p1.Next == nil || p2.Next == nil || p2.Next.Next == nil {
+			return false
+		}
 	}
 
-	if p1 == p2 {
-		return true
-	}
-
-	return isCycle(p1.Next, p2.Next.Next)
 }
 
 func main() {
