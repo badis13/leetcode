@@ -8,7 +8,7 @@ import (
 //https://leetcode.com/problems/how-many-numbers-are-smaller-than-the-current-number/
 
 func main() {
-	a := []int{1, 2, 2, 5, 12, 7}
+	a := []int{8, 1, 2, 2, 3}
 
 	fmt.Println(smallerNumbersThanCurrent(a))
 }
@@ -18,22 +18,17 @@ func smallerNumbersThanCurrent(nums []int) []int {
 	copy(cur, nums)
 	result := make([]int, len(nums))
 	sort.Ints(cur)
-	for i := 0; i < len(nums); i++ {
-		if i+1 == len(nums) {
-			result[i] = i
-			return result
-		}
+	sortCur := make(map[int]int)
 
-		if i > 0 && cur[i] == cur[i-1] {
-			result[i] = result[i-1]
-			continue
+	for index, val := range cur {
+		_, ok := sortCur[val]
+		if !ok {
+			sortCur[val] = index
 		}
+	}
 
-		if cur[i] == cur[i+1] {
-			result[i], result[i+1] = i, i
-			continue
-		}
-		result[i] = i
+	for index, val := range nums {
+		result[index] = sortCur[val]
 	}
 
 	return result
