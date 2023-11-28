@@ -23,7 +23,7 @@ func mergeTrees(root1 *TreeNode, root2 *TreeNode) *TreeNode {
 		return root2
 	}
 
-	return &resultTree
+	return nil
 }
 
 func mergeNode(destinationTree, sourceTree1, sourceTree2 *TreeNode) *TreeNode {
@@ -38,20 +38,20 @@ func mergeNode(destinationTree, sourceTree1, sourceTree2 *TreeNode) *TreeNode {
 		mergeNode(destinationTree.Right, sourceTree1.Right, sourceTree2.Right)
 	}
 
-	if sourceTree1.Left != nil {
-		return sourceTree1.Left
+	if sourceTree1.Left != nil && destinationTree.Left == nil {
+		destinationTree.Left = sourceTree1.Left
 	}
 
-	if sourceTree2.Left != nil {
-		return sourceTree2.Left
+	if sourceTree2.Left != nil && destinationTree.Left == nil {
+		destinationTree.Left = sourceTree2.Left
 	}
 
-	if sourceTree1.Right != nil {
-		return sourceTree1.Right
+	if sourceTree1.Right != nil && destinationTree.Right == nil {
+		destinationTree.Right = sourceTree1.Right
 	}
 
-	if sourceTree2.Right != nil {
-		return sourceTree2.Right
+	if sourceTree2.Right != nil && destinationTree.Right == nil {
+		destinationTree.Right = sourceTree2.Right
 	}
 
 	return destinationTree
