@@ -3,7 +3,6 @@ package main
 import "fmt"
 
 //https://leetcode.com/problems/average-of-levels-in-binary-tree/
-//не работает, нужно починить!!!
 
 type TreeNode struct {
 	Val   int
@@ -13,27 +12,28 @@ type TreeNode struct {
 
 func averageOfLevels(root *TreeNode) []float64 {
 	var result []float64
-	var left, right float64
+
 	if root.Left == nil && root.Right == nil {
+		result = append(result, float64(root.Val))
 		return result
 	}
 
-	if root.Left != nil && root.Right != nil {
-		left = float64(root.Left.Val)
-		right = float64(root.Right.Val)
-		result = append(result, (left+right)/2)
-		result = append(result, averageOfLevels(root.Left)...)
-		result = append(result, averageOfLevels(root.Right)...)
-	}
+	currentLevel := []*TreeNode{root}
 
-	if root.Left != nil && root.Right == nil {
-		result = append(result, float64(root.Left.Val))
-		result = append(result, averageOfLevels(root.Left)...)
-	}
-
-	if root.Left == nil && root.Right != nil {
-		result = append(result, float64(root.Right.Val))
-		result = append(result, averageOfLevels(root.Right)...)
+	for len(currentLevel) > 0 {
+		var nextLevel []*TreeNode
+		sum := 0
+		for _, item := range currentLevel {
+			sum += item.Val
+			if item.Left != nil {
+				nextLevel = append(nextLevel, item.Left)
+			}
+			if item.Right != nil {
+				nextLevel = append(nextLevel, item.Right)
+			}
+		}
+		result = append(result, float64(sum)/float64(len(currentLevel)))
+		currentLevel = nextLevel
 	}
 
 	return result
@@ -45,17 +45,21 @@ func main() {
 	var second1 TreeNode
 	var third1 TreeNode
 	var fourth1 TreeNode
+	var fifth1 TreeNode
+	var sixth1 TreeNode
 	head1.Val = 3
-	first1.Val = 9
-	second1.Val = 20
-	third1.Val = 15
-	fourth1.Val = 7
+	first1.Val = 1
+	second1.Val = 5
+	third1.Val = 0
+	fourth1.Val = 2
+	fifth1.Val = 4
+	sixth1.Val = 6
 	head1.Left = &first1
 	head1.Right = &second1
-	first1.Left = nil
-	first1.Right = nil
-	second1.Left = &third1
-	second1.Left = &fourth1
+	first1.Left = &third1
+	first1.Right = &fourth1
+	second1.Left = &fifth1
+	second1.Right = &sixth1
 	result := averageOfLevels(&head1)
 	fmt.Println(result)
 }
