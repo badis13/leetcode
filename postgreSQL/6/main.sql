@@ -1,6 +1,6 @@
 --https://leetcode.com/problems/find-customer-referee/
--- не решено
-SELECT *
+
+SELECT name
 FROM Customer
-WHERE referee_id <> 2
-AND referee_id is NULL
+WHERE referee_id IS NULL
+OR referee_id <> 2
